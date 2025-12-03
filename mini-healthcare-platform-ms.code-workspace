@@ -1,0 +1,10 @@
+{
+  "folders": [
+    {
+      "path": "booking_service"
+    },
+    {
+      "path": "notification_service"
+    }
+  ]
+}
