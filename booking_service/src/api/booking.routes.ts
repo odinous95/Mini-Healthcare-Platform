@@ -11,4 +11,11 @@ bookingRouter.get(
   }
 );
 
+bookingRouter.post(
+  "/appointment",
+  async (req: Request, res: Response, next: NextFunction) => {
+    return res.status(201).json({ message: "Appointment created" });
+  }
+);
+
 export default bookingRouter;
