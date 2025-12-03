@@ -1,12 +1,15 @@
 import { IBookingCore } from "../interfaces/IBookingCore";
 
-export class BookingService {
+export class BookingUsecase {
   private _repository: IBookingCore;
 
   constructor(repository: IBookingCore) {
     this._repository = repository;
   }
-  createAppointment(data: any) {}
+  async createAppointment(appointment: any) {
+    const data = await this._repository.create(appointment);
+    return data;
+  }
 
   getAppointments(data: any) {}
 }
