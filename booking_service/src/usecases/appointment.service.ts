@@ -1,9 +1,9 @@
-import { IBookingRepository } from "../interfaces/IBookingRepository";
+import { IBookingCore } from "../interfaces/IBookingRepository";
 
 export class BookingService {
-  private _repository: IBookingRepository;
+  private _repository: IBookingCore;
 
-  constructor(repository: IBookingRepository) {
+  constructor(repository: IBookingCore) {
     this._repository = repository;
   }
   createAppointment(data: any) {}

@@ -1,7 +1,7 @@
-import { IBookingRepository } from "../interfaces/IBookingRepository";
+import { IBookingCore } from "../interfaces/IBookingRepository";
 import { Appointment } from "../models/appointment.model";
 
-export class BookingRepository implements IBookingRepository {
+export class BookingRepository implements IBookingCore {
   async create(data: Appointment): Promise<Appointment> {
     // Implementation here
     throw new Error("Method not implemented.");
