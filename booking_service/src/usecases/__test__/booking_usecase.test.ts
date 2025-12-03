@@ -1,7 +1,9 @@
+import { App } from "supertest/types";
 import { IBookingCore } from "../../interfaces/IBookingCore";
 import { MockBookingRepository } from "../../repository";
 import { BookingUsecase } from "../booking.usecase";
 import { randFirstName } from "@ngneat/falso";
+import { Appointment } from "../../models/appointment.model";
 
 const mockAppointmentData = () => {
   return {
@@ -44,6 +46,35 @@ describe("Appointment Usecase Tests", () => {
         appointmentDate: expect.any(Date),
         reason: expect.any(String),
       });
+    });
+    test("should fail to create an appointment | at the service layer", async () => {
+      const usecase = new BookingUsecase(repository);
+      const mockReqPayload = mockAppointmentData();
+      // First creation should succeed
+      await usecase.createAppointment(mockReqPayload);
+      // Second creation with same data should fail
+      jest
+        .spyOn(repository, "create")
+        .mockImplementation(() => Promise.resolve({} as Appointment));
+      await expect(usecase.createAppointment(mockReqPayload)).rejects.toThrow(
+        "Failed to create appointment"
+      );
+    });
+
+    test("should fail to create an appointment already exist | at the repository layer", async () => {
+      const usecase = new BookingUsecase(repository);
+      const mockReqPayload = mockAppointmentData();
+      // First creation should succeed
+      await usecase.createAppointment(mockReqPayload);
+      // Second creation with same data should fail
+      jest
+        .spyOn(repository, "create")
+        .mockImplementation(() =>
+          Promise.reject(new Error("Appointment already exists"))
+        );
+      await expect(usecase.createAppointment(mockReqPayload)).rejects.toThrow(
+        "Appointment already exists"
+      );
     });
   });
 

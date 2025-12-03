@@ -9,6 +9,9 @@ export class BookingUsecase {
   async createAppointment(appointment: any) {
     console.log("Usecase: Creating appointment with data:", appointment);
     const data = await this._repository.create(appointment);
+    if (!data.id) {
+      throw new Error("Failed to create appointment");
+    }
     return data;
   }
 
