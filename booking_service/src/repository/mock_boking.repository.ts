@@ -11,8 +11,9 @@ export class MockBookingRepository implements IBookingCore {
     return Promise.resolve(mockAppointment);
   }
 
-  async findAll(): Promise<Appointment | null> {
-    // Implementation here
-    throw new Error("Method not implemented.");
+  async findAll(): Promise<Appointment[] | null> {
+    // return an empty array for the mock repository
+    const appointments: Appointment[] = [];
+    return Promise.resolve(appointments);
   }
 }

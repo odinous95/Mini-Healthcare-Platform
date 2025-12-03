@@ -7,7 +7,7 @@ export class BookingRepository implements IBookingCore {
     throw new Error("Method not implemented.");
   }
 
-  async findAll(): Promise<Appointment | null> {
+  async findAll(): Promise<Appointment[] | null> {
     // Implementation here
     throw new Error("Method not implemented.");
   }

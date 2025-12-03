@@ -48,8 +48,15 @@ describe("Appointment Usecase Tests", () => {
   });
 
   describe("Get Appointments", () => {
-    test("should retrieve an appointment successfully", () => {
-      // Test implementation for retrieving an appointment
+    test("should retrieve empty appointments list | 0 case ", async () => {
+      const usecase = new BookingUsecase(repository);
+      const result = await usecase.getAppointments();
+      expect(result).toEqual([]);
+    });
+    test("should retrieve appointments successfully", async () => {
+      const usecase = new BookingUsecase(repository);
+      const result = await usecase.getAppointments();
+      expect(Array.isArray(result)).toBe(true);
     });
   });
 });

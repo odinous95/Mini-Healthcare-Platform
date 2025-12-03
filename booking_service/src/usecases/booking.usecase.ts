@@ -12,5 +12,8 @@ export class BookingUsecase {
     return data;
   }
 
-  getAppointments(data: any) {}
+  async getAppointments() {
+    const data = await this._repository.findAll();
+    return data;
+  }
 }
