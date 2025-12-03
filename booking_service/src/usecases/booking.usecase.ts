@@ -7,6 +7,7 @@ export class BookingUsecase {
     this._repository = repository;
   }
   async createAppointment(appointment: any) {
+    console.log("Usecase: Creating appointment with data:", appointment);
     const data = await this._repository.create(appointment);
     return data;
   }

@@ -3,8 +3,12 @@ import { Appointment } from "../models/appointment.model";
 
 export class MockBookingRepository implements IBookingCore {
   async create(data: Appointment): Promise<Appointment> {
-    // Implementation here
-    throw new Error("Method not implemented.");
+    const { id: _ignored, ...rest } = data;
+    const mockAppointment = {
+      id: Math.floor(Math.random() * 1000),
+      ...rest,
+    } as Appointment;
+    return Promise.resolve(mockAppointment);
   }
 
   async findAll(): Promise<Appointment | null> {
