@@ -1,6 +1,16 @@
 import { IBookingCore } from "../../interfaces/IBookingCore";
 import { MockBookingRepository } from "../../repository";
 import { BookingUsecase } from "../booking.usecase";
+import { randFirstName } from "@ngneat/falso";
+
+const mockAppointmentData = () => {
+  return {
+    patientName: randFirstName(),
+    doctorName: randFirstName(),
+    appointmentDate: new Date("2024-06-15T09:00:00Z"),
+    reason: "Consultation",
+  };
+};
 
 describe("Appointment Usecase status", () => {
   test("Sample Test working", () => {
@@ -25,12 +35,7 @@ describe("Appointment Usecase Tests", () => {
   describe("Create Appointment", () => {
     test("should create an appointment successfully", async () => {
       const usecase = new BookingUsecase(repository);
-      const mockReqPayload = {
-        patientName: "John Doe",
-        doctorName: "Dr. Smith",
-        appointmentDate: new Date("2024-07-01T10:00:00Z"),
-        reason: "Regular Checkup",
-      };
+      const mockReqPayload = mockAppointmentData();
       const result = await usecase.createAppointment(mockReqPayload);
       expect(result).toMatchObject({
         id: expect.any(Number),
