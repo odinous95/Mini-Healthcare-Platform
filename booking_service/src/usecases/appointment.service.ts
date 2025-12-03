@@ -1,4 +1,4 @@
-import { IBookingCore } from "../interfaces/IBookingRepository";
+import { IBookingCore } from "../interfaces/IBookingCore";
 
 export class BookingService {
   private _repository: IBookingCore;

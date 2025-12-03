@@ -1,4 +1,4 @@
-import { IBookingCore } from "../interfaces/IBookingRepository";
+import { IBookingCore } from "../interfaces/IBookingCore";
 import { Appointment } from "../models/appointment.model";
 
 export class BookingRepository implements IBookingCore {
