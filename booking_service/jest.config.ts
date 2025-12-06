@@ -14,9 +14,6 @@ const config: Config = {
   coveragePathIgnorePatterns: ["/node_modules/"],
   coverageProvider: "v8",
   moduleDirectories: ["node_modules", "src"],
-  testEnvironment: "node",
-  transform: {},
-  moduleFileExtensions: ["ts", "js", "json", "node"],
 };
 
 export default config;
