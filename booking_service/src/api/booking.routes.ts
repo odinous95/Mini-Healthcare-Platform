@@ -1,12 +1,14 @@
 import express, { NextFunction } from "express";
 import { Request, Response } from "express";
 import { BookingRepository } from "../repository";
-import { BookingUsecase } from "../service";
-import { CreateAppointmentRequest } from "../DTO";
-import { RequestValidator } from "./validations/requestValidator";
+import { AppointmentUsecase } from "../service";
+import { AppointmentController } from "../controllers/appointment.contorller";
 
 const bookingRouter = express.Router();
-export const bookingUsecase = new BookingUsecase(new BookingRepository());
+const repository = new BookingRepository();
+// the export her for testing purpose
+export const appointmentService = new AppointmentUsecase(repository);
+const controller = new AppointmentController(appointmentService);
 
 // Example booking route
 bookingRouter.get(
@@ -18,21 +20,7 @@ bookingRouter.get(
 
 bookingRouter.post(
   "/appointment",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { errors, input } = await RequestValidator(
-        CreateAppointmentRequest,
-        req.body
-      );
-      if (errors) {
-        return res.status(400).json({ errors });
-      }
-      const data = await bookingUsecase.createAppointment(input);
-      return res.status(201).json(data);
-    } catch (error) {
-      return res.status(500).json({ error: (error as Error).message });
-    }
-  }
+  controller.onAppointmentCreate.bind(controller)
 );
 
 export default bookingRouter;
