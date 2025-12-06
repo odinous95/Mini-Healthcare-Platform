@@ -1,7 +1,7 @@
 import { IBookingCore } from "../../interfaces";
 import { Appointment } from "../../models";
 import { MockBookingRepository } from "../../repository";
-import { BookingUsecase } from "../booking.usecase";
+import { BookingUsecase } from "../appointment.usecase";
 import { randFirstName } from "@ngneat/falso";
 
 const mockAppointmentData = () => {

@@ -1,13 +1,13 @@
-import { IBookingCore } from "../interfaces/IBookingCore";
+import { IAppointmentCore } from "../interfaces";
 import { Appointment } from "../models/appointment.model";
+import { AppointmentFactory } from "../utils/mockdata/appointment";
 
-export class BookingRepository implements IBookingCore {
-  async create(data: Appointment): Promise<Appointment> {
-    // Implementation here
-    throw new Error("Method not implemented.");
+export class BookingRepository implements IAppointmentCore {
+  async createAppointment(data: Appointment): Promise<Appointment> {
+    const appointment = AppointmentFactory.build(data);
+    return Promise.resolve(appointment);
   }
-
-  async findAll(): Promise<Appointment[] | null> {
+  async getAppointments(): Promise<Appointment[] | null> {
     // Implementation here
     throw new Error("Method not implemented.");
   }

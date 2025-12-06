@@ -1,1 +1,1 @@
-export * from "./booking.usecase";
+export * from "./appointment.usecase";

@@ -1,1 +1,1 @@
-export * from "./IBookingCore";
+export * from "./IAppointmentCore";

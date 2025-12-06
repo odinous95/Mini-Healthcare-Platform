@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import bookingRouter, { bookingUsecase } from "../booking.routes";
+import bookingRouter, { appointmentService } from "../booking.routes";
 import { randFirstName } from "@ngneat/falso";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 
@@ -23,7 +23,7 @@ describe("Booking Routes", () => {
       const mockReqPayload = mockAppointmentRequset();
       const appointment = AppointmentFactory.build();
       jest
-        .spyOn(bookingUsecase, "createAppointment")
+        .spyOn(appointmentService, "createAppointment")
         .mockImplementationOnce(() => Promise.resolve(appointment));
 
       const res = await request(app)
