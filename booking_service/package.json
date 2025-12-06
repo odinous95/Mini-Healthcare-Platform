@@ -15,6 +15,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@ngneat/falso": "^2.15.0",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
@@ -27,11 +28,14 @@
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
     "npm": "^11.6.4",
+    "rosie": "^2.1.1",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "@ngneat/falso": "^2.15.0",
-    "rosie": "^2.1.1"
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3"
   }
 }
