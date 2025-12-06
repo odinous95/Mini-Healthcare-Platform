@@ -48,7 +48,7 @@ describe("Booking Routes", () => {
     test("should response with internal error", async () => {
       const mockReqPayload = mockAppointmentRequset();
       jest
-        .spyOn(bookingUsecase, "createAppointment")
+        .spyOn(appointmentService, "createAppointment")
         .mockImplementationOnce(() =>
           Promise.reject(new Error("Internal Server Error"))
         );

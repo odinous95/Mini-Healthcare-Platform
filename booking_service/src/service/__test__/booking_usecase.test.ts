@@ -1,11 +1,12 @@
-import { IBookingCore } from "../../interfaces";
+import { IAppointmentCore } from "../../interfaces";
 import { Appointment } from "../../models";
 import { MockBookingRepository } from "../../repositories";
-import { BookingUsecase } from "../appointment.usecase";
-import { randFirstName } from "@ngneat/falso";
+import { AppointmentUsecase } from "../appointment.usecase";
+import { randFirstName, random } from "@ngneat/falso";
 
 const mockAppointmentData = () => {
   return {
+    id: random(),
     patientName: randFirstName(),
     doctorName: randFirstName(),
     appointmentDate: new Date("2024-06-15T09:00:00Z"),
@@ -20,8 +21,8 @@ describe("Appointment Usecase status", () => {
 });
 
 describe("Appointment Usecase Tests", () => {
-  // Mock repository implementing IBookingCore
-  let repository: IBookingCore;
+  // Mock repository implementing IAppointmentCore
+  let repository: IAppointmentCore;
 
   beforeEach(() => {
     // Setup  before each test
@@ -35,7 +36,7 @@ describe("Appointment Usecase Tests", () => {
   //-=-=-=-=-= Tests for creating and retrieving appointments -=-=-=-=-=//
   describe("Create Appointment", () => {
     test("should create an appointment successfully", async () => {
-      const usecase = new BookingUsecase(repository);
+      const usecase = new AppointmentUsecase(repository);
       const mockReqPayload = mockAppointmentData();
       const result = await usecase.createAppointment(mockReqPayload);
       expect(result).toMatchObject({
@@ -47,13 +48,13 @@ describe("Appointment Usecase Tests", () => {
       });
     });
     test("should fail to create an appointment | at the service layer", async () => {
-      const usecase = new BookingUsecase(repository);
+      const usecase = new AppointmentUsecase(repository);
       const mockReqPayload = mockAppointmentData();
       // First creation should succeed
       await usecase.createAppointment(mockReqPayload);
       // Second creation with same data should fail
       jest
-        .spyOn(repository, "create")
+        .spyOn(repository, "createAppointment")
         .mockImplementation(() => Promise.resolve({} as Appointment));
       await expect(usecase.createAppointment(mockReqPayload)).rejects.toThrow(
         "Failed to create appointment"
@@ -61,13 +62,13 @@ describe("Appointment Usecase Tests", () => {
     });
 
     test("should fail to create an appointment already exist | at the repository layer", async () => {
-      const usecase = new BookingUsecase(repository);
+      const usecase = new AppointmentUsecase(repository);
       const mockReqPayload = mockAppointmentData();
       // First creation should succeed
       await usecase.createAppointment(mockReqPayload);
       // Second creation with same data should fail
       jest
-        .spyOn(repository, "create")
+        .spyOn(repository, "createAppointment")
         .mockImplementation(() =>
           Promise.reject(new Error("Appointment already exists"))
         );
@@ -79,12 +80,12 @@ describe("Appointment Usecase Tests", () => {
 
   describe("Get Appointments", () => {
     test("should retrieve empty appointments list | 0 case ", async () => {
-      const usecase = new BookingUsecase(repository);
+      const usecase = new AppointmentUsecase(repository);
       const result = await usecase.getAppointments();
       expect(result).toEqual([]);
     });
     test("should retrieve appointments successfully", async () => {
-      const usecase = new BookingUsecase(repository);
+      const usecase = new AppointmentUsecase(repository);
       const result = await usecase.getAppointments();
       expect(Array.isArray(result)).toBe(true);
     });
