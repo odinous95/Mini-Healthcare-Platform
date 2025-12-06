@@ -1,7 +1,7 @@
 import express, { NextFunction } from "express";
 import { Request, Response } from "express";
 import { BookingRepository } from "../repository";
-import { BookingUsecase } from "../usecases";
+import { BookingUsecase } from "../service";
 import { CreateAppointmentRequest } from "../DTO";
 import { RequestValidator } from "./validations/requestValidator";
 
