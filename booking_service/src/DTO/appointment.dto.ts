@@ -1,4 +1,4 @@
-import { IsISO8601, IsNotEmpty, IsString } from "class-validator";
+import { IsISO8601, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateAppointmentRequest {
   @IsString()
@@ -10,7 +10,7 @@ export class CreateAppointmentRequest {
   doctorName!: string;
 
   @IsISO8601()
-  appointmentDate!: string;
+  appointmentDate!: Date;
 
   @IsString()
   reason!: string;
