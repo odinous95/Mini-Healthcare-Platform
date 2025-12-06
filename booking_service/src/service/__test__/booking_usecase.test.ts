@@ -1,6 +1,6 @@
 import { IBookingCore } from "../../interfaces";
 import { Appointment } from "../../models";
-import { MockBookingRepository } from "../../repository";
+import { MockBookingRepository } from "../../repositories";
 import { BookingUsecase } from "../appointment.usecase";
 import { randFirstName } from "@ngneat/falso";
 

@@ -1,6 +1,6 @@
 import express, { NextFunction } from "express";
 import { Request, Response } from "express";
-import { BookingRepository } from "../repository";
+import { BookingRepository } from "../repositories";
 import { AppointmentUsecase } from "../service";
 import { AppointmentController } from "../controllers/appointment.contorller";
 
