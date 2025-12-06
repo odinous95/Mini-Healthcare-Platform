@@ -8,6 +8,14 @@ export class AppointmentController {
   constructor(interactor: IAppointmentCore) {
     this.interactor = interactor;
   }
+  async onGetAppointments(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await this.interactor.getAppointments();
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).json({ error: (error as Error).message });
+    }
+  }
   async onAppointmentCreate(req: Request, res: Response, next: NextFunction) {
     try {
       const { errors, input } = await RequestValidator(
