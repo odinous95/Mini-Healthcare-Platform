@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { createApp } from "./expressApp";
 
 const PORT = process.env.PORT || 3000;
