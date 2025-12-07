@@ -1,16 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import { IAppointmentCore } from "../interfaces";
-import { RequestValidator } from "../api/validations/requestValidator";
+import { RequestValidator } from "../api/validations";
 import { CreateAppointmentRequest } from "../DTO";
-
+import { inject, injectable } from "inversify";
+import { INTERFACE_TYPES } from "../utils";
+@injectable()
 export class AppointmentController {
-  private interactor: IAppointmentCore;
-  constructor(interactor: IAppointmentCore) {
-    this.interactor = interactor;
+  private appointmentUsecase: IAppointmentCore;
+  constructor(
+    @inject(INTERFACE_TYPES.AppointmentUsecase)
+    appointmentUsecase: IAppointmentCore
+  ) {
+    this.appointmentUsecase = appointmentUsecase;
   }
   async onGetAppointments(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await this.interactor.getAppointments();
+      const data = await this.appointmentUsecase.getAppointments();
       return res.status(200).json(data);
     } catch (error) {
       return res.status(500).json({ error: (error as Error).message });
@@ -25,7 +30,7 @@ export class AppointmentController {
       if (errors) {
         return res.status(400).json({ errors });
       }
-      const data = await this.interactor.createAppointment(input);
+      const data = await this.appointmentUsecase.createAppointment(input);
       return res.status(201).json(data);
     } catch (error) {
       return res.status(500).json({ error: (error as Error).message });
