@@ -1,5 +1,5 @@
-import { DB } from "../external.infrastructure/pg.db/db.connection";
-import { appointments } from "../external.infrastructure/pg.db/schema";
+import { DB } from "../external.infrastructure/db-pg/db.connection";
+import { appointments } from "../external.infrastructure/db-pg/schema";
 import { IAppointmentCore } from "../interfaces/IAppointmentCore";
 import { Appointment } from "../models/appointment.model";
 import { injectable } from "inversify";
