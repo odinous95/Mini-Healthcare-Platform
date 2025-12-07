@@ -1,16 +1,32 @@
-import express, { NextFunction } from "express";
-import { Request, Response } from "express";
-import { MockBookingRepository } from "../repositories";
+import express from "express";
+import { BookingRepository, MockBookingRepository } from "../repositories";
 import { AppointmentUsecase } from "../service";
-import { AppointmentController } from "../controllers/appointment.contorller";
+import { AppointmentController } from "../controllers";
+import { Container } from "inversify";
+import { INTERFACE_TYPES } from "../utils";
+import { IAppointmentCore } from "../interfaces";
 
 const bookingRouter = express.Router();
-const repository = new MockBookingRepository();
-// the export her for testing purpose
-export const appointmentService = new AppointmentUsecase(repository);
-const controller = new AppointmentController(appointmentService);
+const container = new Container();
 
-// Example booking route
+container
+  .bind<IAppointmentCore>(INTERFACE_TYPES.BookingRepository)
+  .to(BookingRepository);
+
+container
+  .bind<IAppointmentCore>(INTERFACE_TYPES.MockBookingRepository)
+  .to(MockBookingRepository);
+
+container
+  .bind<IAppointmentCore>(INTERFACE_TYPES.AppointmentUsecase)
+  .to(AppointmentUsecase);
+
+container.bind(INTERFACE_TYPES.AppointmentController).to(AppointmentController);
+
+const controller = container.get<AppointmentController>(
+  INTERFACE_TYPES.AppointmentController
+);
+
 bookingRouter.get(
   "/appointments",
   controller.onGetAppointments.bind(controller)
