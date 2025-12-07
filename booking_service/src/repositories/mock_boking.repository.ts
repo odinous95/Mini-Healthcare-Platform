@@ -7,22 +7,7 @@ export class MockBookingRepository implements IAppointmentCore {
   private appointments: Appointment[];
 
   constructor() {
-    this.appointments = [
-      {
-        patientName: "John Doe",
-        doctorName: "Dr. Smith",
-        appointmentDate: new Date("2023-10-01T10:00:00Z"),
-        reason: "Regular Checkup",
-        id: 1,
-      },
-      {
-        patientName: "fsdf Doe",
-        doctorName: "Dr. fasd",
-        appointmentDate: new Date("2023-10-01T10:00:00Z"),
-        reason: "fasdf Checkup",
-        id: 2,
-      },
-    ];
+    this.appointments = [];
   }
 
   async createAppointment(data: Appointment): Promise<Appointment> {
