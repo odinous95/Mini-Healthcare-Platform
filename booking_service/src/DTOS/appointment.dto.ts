@@ -1,4 +1,5 @@
-import { IsISO8601, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsDate, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateAppointmentRequest {
   @IsString()
@@ -9,7 +10,8 @@ export class CreateAppointmentRequest {
   @IsNotEmpty()
   doctorName!: string;
 
-  @IsISO8601()
+  @Type(() => Date)
+  @IsDate()
   appointmentDate!: Date;
 
   @IsString()
