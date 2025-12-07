@@ -1,6 +1,8 @@
 import { IAppointmentCore } from "../interfaces/IAppointmentCore";
 import { Appointment } from "../models/appointment.model";
+import { injectable } from "inversify";
 
+@injectable()
 export class MockBookingRepository implements IAppointmentCore {
   private appointments: Appointment[];
 

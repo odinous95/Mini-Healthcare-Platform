@@ -1,7 +1,9 @@
+import { injectable } from "inversify";
 import { IAppointmentCore } from "../interfaces";
 import { Appointment } from "../models/appointment.model";
 import { AppointmentFactory } from "../utils/mockdata/appointment";
 
+@injectable()
 export class BookingRepository implements IAppointmentCore {
   async createAppointment(data: Appointment): Promise<Appointment> {
     const appointment = AppointmentFactory.build(data);

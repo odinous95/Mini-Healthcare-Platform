@@ -1,9 +1,14 @@
 import { IAppointmentCore } from "../interfaces";
+import { inject, injectable } from "inversify";
+import { INTERFACE_TYPES } from "../utils";
 
+@injectable()
 export class AppointmentUsecase implements IAppointmentCore {
   private _repository: IAppointmentCore;
 
-  constructor(repository: IAppointmentCore) {
+  constructor(
+    @inject(INTERFACE_TYPES.MockBookingRepository) repository: IAppointmentCore
+  ) {
     this._repository = repository;
   }
   async createAppointment(appointment: any) {
