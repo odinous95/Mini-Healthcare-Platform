@@ -4,10 +4,10 @@
       "path": "booking_service"
     },
     {
-      "path": "notification_service"
+      "path": "db"
     },
     {
-      "path": "db"
+      "path": "bloodtest-order"
     }
   ]
 }
