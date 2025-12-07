@@ -1,6 +1,7 @@
 import { IAppointmentCore } from "../interfaces";
 import { inject, injectable } from "inversify";
 import { INTERFACE_TYPES } from "../utils";
+import { Appointment } from "../models";
 
 @injectable()
 export class AppointmentUsecase implements IAppointmentCore {
@@ -11,10 +12,10 @@ export class AppointmentUsecase implements IAppointmentCore {
   ) {
     this._repository = repository;
   }
-  async createAppointment(appointment: any) {
+  async createAppointment(appointment: Appointment) {
     const data = await this._repository.createAppointment(appointment);
     if (!data.id) {
-      throw new Error("Failed to create appointment");
+      throw new Error("Internal Server Error");
     }
     return data;
   }
