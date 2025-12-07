@@ -7,7 +7,7 @@ export class AppointmentUsecase implements IAppointmentCore {
   private _repository: IAppointmentCore;
 
   constructor(
-    @inject(INTERFACE_TYPES.MockBookingRepository) repository: IAppointmentCore
+    @inject(INTERFACE_TYPES.BookingRepository) repository: IAppointmentCore
   ) {
     this._repository = repository;
   }
