@@ -7,7 +7,10 @@
       "path": "db"
     },
     {
-      "path": "bloodtest-order"
+      "path": "bloodtest_order_service"
+    },
+    {
+      "path": "kafkaBroker"
     }
   ]
 }
