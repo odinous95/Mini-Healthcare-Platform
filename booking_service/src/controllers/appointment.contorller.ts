@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IAppointmentCore } from "../interfaces";
-import { RequestValidator } from "../api/validations";
+import { RequestValidator } from "./validations";
 import { CreateAppointmentRequest } from "../DTOS";
 import { inject, injectable } from "inversify";
 import { INTERFACE_TYPES } from "../utils";
