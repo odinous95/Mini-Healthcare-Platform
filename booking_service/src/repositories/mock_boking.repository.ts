@@ -1,5 +1,3 @@
-import { DB } from "../external.infrastructure/postgres.database/db.connection";
-import { appointments } from "../external.infrastructure/postgres.database/schema";
 import { IAppointmentCore } from "../interfaces/IAppointmentCore";
 import { Appointment } from "../models/appointment.model";
 import { injectable } from "inversify";
@@ -13,21 +11,8 @@ export class MockBookingRepository implements IAppointmentCore {
   }
 
   async createAppointment(data: Appointment): Promise<Appointment> {
-    try {
-      const [result] = await DB.insert(appointments)
-        .values({
-          id: data.id,
-          patientName: data.patientName,
-          doctorName: data.doctorName,
-          appointmentDate: data.appointmentDate,
-          reason: data.reason,
-        })
-        .returning();
-      return result;
-    } catch (error) {
-      console.error("Failed to create appointment:", error);
-      throw new Error("Could not create appointment");
-    }
+    this.appointments.push(data);
+    return data;
   }
 
   async getAppointments(): Promise<Appointment[] | null> {
