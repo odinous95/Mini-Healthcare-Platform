@@ -22,6 +22,9 @@ export class AppointmentUsecase implements IAppointmentCore {
 
   async getAppointments() {
     const data = await this._repository.getAppointments();
+    if (!data) {
+      throw new Error("Internal Server Error");
+    }
     return data;
   }
 }
