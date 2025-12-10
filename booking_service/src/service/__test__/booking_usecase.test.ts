@@ -3,12 +3,6 @@ import { MockBookingRepository } from "../../repositories";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 import { AppointmentUsecase } from "../appointment.usecase";
 
-describe("Appointment Usecase status", () => {
-  test("Sample Test working", () => {
-    expect(true).toBe(true);
-  });
-});
-
 describe("Appointment Usecase | Unit tests ", () => {
   // Mock repository implementing IAppointmentCore
   let repository: MockBookingRepository;
@@ -64,6 +58,7 @@ describe("Appointment Usecase | Unit tests ", () => {
       );
     });
   });
+
   describe("Get Appointments", () => {
     test("should retrieve appointments successfully", async () => {
       const usecase = new AppointmentUsecase(repository);
