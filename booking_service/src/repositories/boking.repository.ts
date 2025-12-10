@@ -1,16 +1,35 @@
 import { injectable } from "inversify";
 import { IAppointmentCore } from "../interfaces";
 import { Appointment } from "../models/appointment.model";
-import { AppointmentFactory } from "../utils/mockdata/appointment";
+import { appointments } from "../external.infrastructure/postgres.database/schema";
+import { DB } from "../external.infrastructure/postgres.database/db.connection";
 
 @injectable()
 export class BookingRepository implements IAppointmentCore {
   async createAppointment(data: Appointment): Promise<Appointment> {
-    const appointment = AppointmentFactory.build(data);
-    return Promise.resolve(appointment);
+    try {
+      const [result] = await DB.insert(appointments)
+        .values({
+          id: data.id,
+          patientName: data.patientName,
+          doctorName: data.doctorName,
+          appointmentDate: data.appointmentDate,
+          reason: data.reason,
+        })
+        .returning();
+      return result;
+    } catch (error) {
+      console.error("Failed to create appointment:", error);
+      throw new Error("Could not create appointment");
+    }
   }
   async getAppointments(): Promise<Appointment[] | null> {
-    // Implementation here
-    throw new Error("Method not implemented.");
+    try {
+      const results = await DB.select().from(appointments);
+      return results;
+    } catch (error) {
+      console.error("Failed to retrieve appointments:", error);
+      throw new Error("Could not retrieve appointments");
+    }
   }
 }
