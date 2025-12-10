@@ -1,7 +1,5 @@
-import { DIcontainer } from "../../configs/inversify.config";
 import { Appointment } from "../../models";
-import { BookingRepository, MockBookingRepository } from "../../repositories";
-import { INTERFACE_TYPES } from "../../utils";
+import { MockBookingRepository } from "../../repositories";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 import { AppointmentUsecase } from "../appointment.usecase";
 
@@ -11,15 +9,13 @@ describe("Appointment Usecase status", () => {
   });
 });
 
-describe("Appointment Usecase Unit tests", () => {
+describe("Appointment Usecase | Unit tests ", () => {
   // Mock repository implementing IAppointmentCore
-  let repository: BookingRepository;
+  let repository: MockBookingRepository;
 
   beforeEach(() => {
     // Setup  before each test
-    repository = DIcontainer.get<BookingRepository>(
-      INTERFACE_TYPES.BookingRepository
-    );
+    repository = new MockBookingRepository();
   });
 
   afterEach(() => {
@@ -27,7 +23,7 @@ describe("Appointment Usecase Unit tests", () => {
   });
 
   //-=-=-=-=-= Tests for creating and retrieving appointments -=-=-=-=-=//
-  describe("Create Appointment", () => {
+  describe("Create Appointment ", () => {
     test("should create an appointment successfully", async () => {
       const usecase = new AppointmentUsecase(repository);
       const appointment = AppointmentFactory.build();
@@ -52,7 +48,6 @@ describe("Appointment Usecase Unit tests", () => {
         "Internal Server Error"
       );
     });
-
     test("should fail to create an appointment already exist | at the repository layer", async () => {
       const usecase = new AppointmentUsecase(repository);
       const appointment = AppointmentFactory.build();
@@ -69,13 +64,7 @@ describe("Appointment Usecase Unit tests", () => {
       );
     });
   });
-
   describe("Get Appointments", () => {
-    test.skip("should retrieve empty appointments list | 0 case ", async () => {
-      const usecase = new AppointmentUsecase(repository);
-      const result = await usecase.getAppointments();
-      expect(result).toEqual([]);
-    });
     test("should retrieve appointments successfully", async () => {
       const usecase = new AppointmentUsecase(repository);
       const result = await usecase.getAppointments();
