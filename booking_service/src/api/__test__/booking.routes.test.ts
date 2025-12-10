@@ -2,57 +2,56 @@ import request from "supertest";
 import express from "express";
 import bookingRouter from "../booking.routes";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
-import { DIcontainer } from "../../configs/inversify.config";
-import { INTERFACE_TYPES } from "../../utils";
 import { AppointmentUsecase } from "../../service";
+import { MockBookingRepository } from "../../repositories";
+import { Appointment } from "../../models";
 
 const app = express();
 app.use(express.json());
-app.use("/", bookingRouter);
-
-// Mocking the AppointmentUsecase from the DI container
-// const appointmentUsecase = DIcontainer.get<AppointmentUsecase>(
-//   INTERFACE_TYPES.AppointmentUsecase
-// );
-
-describe("Booking Routes test | integration tests", () => {
-  // Define appointmentUsecase here to be used in tests
-  let appointmentUsecase: AppointmentUsecase;
-
-  beforeEach(() => {
-    // Setup  before each test
-    appointmentUsecase = DIcontainer.get<AppointmentUsecase>(
-      INTERFACE_TYPES.BookingRepository
-    );
-  });
-
-  afterEach(() => {
-    appointmentUsecase = {} as AppointmentUsecase;
-  });
-
-  describe("POST /appointment", () => {
+describe("Booking Routes test | integration tests up to the service layer with the mocking repository injected", () => {
+  describe("appointment", () => {
+    // Define appointmentUsecase here to be used in tests
+    let appointmentUsecase: AppointmentUsecase;
+    let repository: MockBookingRepository;
+    let mock_appointment: Appointment = AppointmentFactory.build();
+    beforeEach(() => {
+      repository = new MockBookingRepository();
+      appointmentUsecase = new AppointmentUsecase(repository);
+      app.use("/", bookingRouter);
+    });
+    afterEach(() => {
+      appointmentUsecase = {} as AppointmentUsecase;
+    });
     test("should create an appointment", async () => {
-      const appointment = AppointmentFactory.build();
       jest
         .spyOn(appointmentUsecase, "createAppointment")
-        .mockImplementationOnce(() => Promise.resolve(appointment));
+        .mockImplementationOnce(() => Promise.resolve(mock_appointment));
       const res = await request(app)
         .post("/appointment")
-        .send(appointment)
+        .send(mock_appointment)
         .set("Accept", "application/json");
       res.body.appointmentDate = new Date(res.body.appointmentDate);
       expect(res.status).toBe(201);
-      expect(res.body).toEqual(appointment);
+      expect(res.body).toEqual(mock_appointment);
     });
-
     test("should return a validation error ", async () => {
-      const appointment = AppointmentFactory.build();
       const res = await request(app)
         .post("/appointment")
-        .send({ ...appointment, patientName: "" })
+        .send({ ...mock_appointment, patientName: "" })
         .set("Accept", "application/json");
       expect(res.status).toBe(400);
       expect(res.body.errors).toEqual("patientName should not be empty");
+    });
+    test("should retrieve all appointments", async () => {
+      const res = await request(app)
+        .get("/appointments")
+        .set("Accept", "application/json");
+      res.body = res.body.map((appt: any) => ({
+        ...appt,
+        appointmentDate: new Date(appt.appointmentDate),
+      }));
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual([mock_appointment]);
     });
   });
 });
