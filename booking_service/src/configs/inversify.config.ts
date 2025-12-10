@@ -9,10 +9,12 @@ import { AppointmentController } from "../controllers";
 const DIcontainer = new Container();
 
 console.log(
-  `Using ${config.USE_MOCK ? "MockBookingRepository" : "BookingRepository"}`
+  `Using ${
+    config.USE_MOCK === "true" ? "MockBookingRepository" : "BookingRepository"
+  }`
 );
 DIcontainer.bind<IAppointmentCore>(INTERFACE_TYPES.BookingRepository).to(
-  config.USE_MOCK ? MockBookingRepository : BookingRepository
+  config.USE_MOCK === "true" ? MockBookingRepository : BookingRepository
 );
 
 DIcontainer.bind<IAppointmentCore>(INTERFACE_TYPES.AppointmentUsecase).to(
