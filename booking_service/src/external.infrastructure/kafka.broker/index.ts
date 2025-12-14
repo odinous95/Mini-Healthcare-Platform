@@ -3,27 +3,30 @@ import { KafkaBroker } from "./kafkaBroker";
 
 // configuration properties
 const CLIENT_ID = process.env.CLIENT_ID || "booking-service";
-const GROUP_ID = process.env.GROUP_ID || "booking-service-group";
 const BROKERS = [process.env.BROKER_1 || "localhost:9092"];
+const GROUP_ID = process.env.GROUP_ID || "booking-service-group";
 
-export const kafka = new Kafka({
-  clientId: CLIENT_ID,
-  brokers: BROKERS,
-  logLevel: logLevel.INFO,
-});
-export const kafkaBroker = new KafkaBroker(kafka);
-async function setupKafka() {
+export async function createKafkaBroker(): Promise<KafkaBroker> {
+  const kafkaInstance = new Kafka({
+    clientId: CLIENT_ID,
+    brokers: BROKERS,
+    logLevel: logLevel.INFO,
+  });
+  const kafkaBroker = new KafkaBroker(kafkaInstance);
   try {
-    await kafkaBroker.connectAdmin();
+    const admin = await kafkaBroker.connectAdmin();
+    const existingTopics = await admin.listTopics();
 
-    await kafkaBroker.createTopics([
-      { topic: "booking-events", numPartitions: 3 },
-    ]);
+    if (!existingTopics.includes("appointments")) {
+      console.log("Creating Kafka topics...");
+      await kafkaBroker.createTopics([
+        { topic: "appointments", numPartitions: 3 },
+      ]);
+    }
   } catch (error) {
-    console.error("Error connecting Kafka Admin from index:", error);
+    console.error("Error creating Kafka topics:", error);
   } finally {
     await kafkaBroker.disconnectAdmin();
   }
+  return kafkaBroker;
 }
-
-setupKafka();
