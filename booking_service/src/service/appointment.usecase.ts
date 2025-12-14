@@ -2,7 +2,7 @@ import { IAppointmentCore, IMessageBroker } from "../interfaces";
 import { inject, injectable } from "inversify";
 import { INTERFACE_TYPES } from "../utils";
 import { Appointment } from "../models";
-import { BookingEvents } from "../external.infrastructure/kafka.broker/types";
+import { AppointmentEvents } from "../domain/events";
 
 @injectable()
 export class AppointmentUsecase implements IAppointmentCore {
@@ -23,9 +23,9 @@ export class AppointmentUsecase implements IAppointmentCore {
     }
     await this._broker.publish({
       topic: "appointments",
-      event: BookingEvents.book_appointment,
+      event: AppointmentEvents.Booked,
       headers: {},
-      messages: data,
+      message: data,
     });
 
     return data;

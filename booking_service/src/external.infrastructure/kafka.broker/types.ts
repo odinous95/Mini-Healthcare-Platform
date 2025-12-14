@@ -1,13 +1,10 @@
-export type TOPIC_TYPE = "appointments";
+import { AppointmentEvents } from "../../domain/events";
 
-export enum BookingEvents {
-  book_appointment = "book_appointment",
-  cancel_appointment = "cancel_appointment",
-}
+export type TOPIC_TYPE = "appointments";
 
 export interface IMessagePayload {
   headers?: Record<string, any>;
-  event: BookingEvents;
+  event: AppointmentEvents;
   topic: TOPIC_TYPE;
-  messages: Record<string, any>;
+  message: Record<string, any>;
 }
