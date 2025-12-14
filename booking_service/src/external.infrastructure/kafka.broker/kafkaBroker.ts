@@ -1,6 +1,9 @@
 import { Admin, Consumer, Kafka, Producer } from "kafkajs";
 import { IMessageBroker } from "../../interfaces";
+import { injectable } from "inversify";
+import { IMessagePayload } from "./types";
 
+@injectable()
 export class KafkaBroker implements IMessageBroker {
   private admin?: Admin;
   private producer?: Producer;
@@ -37,22 +40,42 @@ export class KafkaBroker implements IMessageBroker {
   }
 
   // producer
-  async connectProducer<T>(): Promise<T> {
+  async connectProducer<T>(): Promise<Producer> {
     if (!this.producer) {
       this.producer = this.kafka.producer();
       await this.producer.connect();
     }
-    return this.producer as unknown as Promise<T>;
+    return this.producer;
   }
+  //-=-=-=-=-=
   async disconnectProducer<T>(): Promise<void> {
     await this.producer?.disconnect();
     this.producer = undefined;
   }
-  async publish(data: unknown): Promise<boolean> {
-    // Implementation for publishing a message to the specified queue
-    console.log(`Publishing message:`, data);
-    // Here you would add the actual logic to publish to a message broker like RabbitMQ, Kafka, etc.
-    return true;
+
+  async publish(data: IMessagePayload): Promise<boolean> {
+    try {
+      const producer = await this.connectProducer<Producer>();
+      console.log("Booking producer created and connected successfully.");
+      const result = await producer.send({
+        topic: data.topic,
+        messages: [
+          {
+            headers: data.headers,
+            key: data.event,
+            value: JSON.stringify(data.messages),
+          },
+        ],
+      });
+      console.log("publishing result", result);
+      console.log("Booking created event published successfully.");
+      return result.length > 0;
+    } catch (error) {
+      console.error("Error creating booking producer:", error);
+      throw error;
+    } finally {
+      await this.disconnectProducer();
+    }
   }
 
   // consumer-=-==-=-=-=-=-=
