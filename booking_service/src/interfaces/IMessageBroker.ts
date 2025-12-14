@@ -1,4 +1,5 @@
-import { Admin } from "kafkajs";
+import { Admin, Producer } from "kafkajs";
+import { IMessagePayload } from "../external.infrastructure/kafka.broker/types";
 export interface IMessageBroker {
   // --- Admin ---
   connectAdmin(): Promise<Admin>;
@@ -7,9 +8,9 @@ export interface IMessageBroker {
     topics: { topic: string; numPartitions: number }[]
   ): Promise<boolean>;
   //producer
-  connectProducer: <T>() => Promise<T>;
+  connectProducer: <T>() => Promise<Producer>;
   disconnectProducer: <T>() => Promise<void>;
-  publish: (data: unknown) => Promise<boolean>;
+  publish: (data: IMessagePayload) => Promise<boolean>;
 
   //consumer
   connectConsumer: <T>() => Promise<T>;
