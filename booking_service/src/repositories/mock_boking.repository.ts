@@ -11,8 +11,15 @@ export class MockBookingRepository implements IAppointmentCore {
   }
 
   async createAppointment(data: Appointment): Promise<Appointment> {
-    this.appointments.push(data);
-    return data;
+    const appointment = {
+      id: Math.floor(Math.random() * 10000),
+      patientName: data.patientName,
+      doctorName: data.doctorName,
+      appointmentDate: data.appointmentDate,
+      reason: data.reason,
+    };
+    this.appointments.push(appointment);
+    return Promise.resolve(appointment);
   }
 
   async getAppointments(): Promise<Appointment[] | null> {
