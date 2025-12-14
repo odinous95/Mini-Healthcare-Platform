@@ -16,6 +16,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@ngneat/falso": "^2.15.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
@@ -40,6 +41,7 @@
   "dependencies": {
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
+    "cors": "^2.8.5",
     "drizzle-orm": "^0.45.0",
     "inversify": "^7.10.6",
     "kafkajs": "^2.2.4",
