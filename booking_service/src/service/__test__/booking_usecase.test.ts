@@ -1,4 +1,4 @@
-import { Appointment } from "../../models";
+import { Appointment } from "../../domain/appointment";
 import { MockBookingRepository } from "../../repositories";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 import { AppointmentUsecase } from "../appointment.usecase";
@@ -6,10 +6,12 @@ import { AppointmentUsecase } from "../appointment.usecase";
 describe("Appointment Usecase | Unit tests ", () => {
   // Mock repository implementing IAppointmentCore
   let repository: MockBookingRepository;
+  let broker: any;
 
   beforeEach(() => {
     // Setup  before each test
     repository = new MockBookingRepository();
+    broker = {};
   });
 
   afterEach(() => {
@@ -19,7 +21,7 @@ describe("Appointment Usecase | Unit tests ", () => {
   //-=-=-=-=-= Tests for creating and retrieving appointments -=-=-=-=-=//
   describe("Create Appointment ", () => {
     test("should create an appointment successfully", async () => {
-      const usecase = new AppointmentUsecase(repository);
+      const usecase = new AppointmentUsecase(repository, broker);
       const appointment = AppointmentFactory.build();
       const result = await usecase.createAppointment(appointment);
       expect(result).toMatchObject({
@@ -31,7 +33,7 @@ describe("Appointment Usecase | Unit tests ", () => {
       });
     });
     test("should fail to create an appointment | at the service layer", async () => {
-      const usecase = new AppointmentUsecase(repository);
+      const usecase = new AppointmentUsecase(repository, broker);
       const appointment = AppointmentFactory.build();
       await usecase.createAppointment(appointment);
       // Second creation with same data should fail
@@ -43,7 +45,7 @@ describe("Appointment Usecase | Unit tests ", () => {
       );
     });
     test("should fail to create an appointment already exist | at the repository layer", async () => {
-      const usecase = new AppointmentUsecase(repository);
+      const usecase = new AppointmentUsecase(repository, broker);
       const appointment = AppointmentFactory.build();
       // First creation should succeed
       await usecase.createAppointment(appointment);
@@ -61,7 +63,7 @@ describe("Appointment Usecase | Unit tests ", () => {
 
   describe("Get Appointments", () => {
     test("should retrieve appointments successfully", async () => {
-      const usecase = new AppointmentUsecase(repository);
+      const usecase = new AppointmentUsecase(repository, broker);
       const result = await usecase.getAppointments();
       expect(Array.isArray(result)).toBe(true);
     });

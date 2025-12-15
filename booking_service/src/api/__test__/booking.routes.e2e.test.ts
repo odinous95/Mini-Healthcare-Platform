@@ -1,12 +1,13 @@
 import request from "supertest";
 import express from "express";
-import bookingRouter from "../booking.routes";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 import { DIcontainer } from "../../configs/inversify.config";
 import { INTERFACE_TYPES } from "../../utils";
 import { AppointmentUsecase } from "../../service";
 import { BookingRepository } from "../../repositories";
 import config from "../../configs/app.config";
+import { createBookingRouter } from "../booking.routes";
+import { AppointmentController } from "../../controllers";
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,7 @@ app.use(express.json());
   () => {
     let appointmentUsecase: AppointmentUsecase;
     let repository: BookingRepository;
-    app.use("/", bookingRouter);
+
     beforeEach(() => {
       repository = DIcontainer.get<BookingRepository>(
         INTERFACE_TYPES.BookingRepository
@@ -26,6 +27,12 @@ app.use(express.json());
       appointmentUsecase = DIcontainer.get<AppointmentUsecase>(
         INTERFACE_TYPES.AppointmentUsecase
       );
+
+      const appointmentController = DIcontainer.get<AppointmentController>(
+        INTERFACE_TYPES.AppointmentController
+      );
+      const bookingRouter = createBookingRouter(appointmentController);
+      app.use("/", bookingRouter);
     });
 
     describe("POST /appointment", () => {

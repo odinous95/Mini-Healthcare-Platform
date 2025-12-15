@@ -1,11 +1,14 @@
 import request from "supertest";
 import express from "express";
-import bookingRouter from "../booking.routes";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 import { AppointmentUsecase } from "../../service";
 import { MockBookingRepository } from "../../repositories";
-import { Appointment } from "../../models";
 import config from "../../configs/app.config";
+import { Appointment } from "../../domain/appointment";
+import { createBookingRouter } from "../booking.routes";
+import { DIcontainer } from "../../configs/inversify.config";
+import { AppointmentController } from "../../controllers";
+import { INTERFACE_TYPES } from "../../utils";
 
 const app = express();
 app.use(express.json());
@@ -17,9 +20,14 @@ app.use(express.json());
       let appointmentUsecase: AppointmentUsecase;
       let repository: MockBookingRepository;
       let mock_appointment: Appointment = AppointmentFactory.build();
+      let broker: any = {};
       beforeEach(() => {
         repository = new MockBookingRepository();
-        appointmentUsecase = new AppointmentUsecase(repository);
+        appointmentUsecase = new AppointmentUsecase(repository, broker);
+        const appointmentController = DIcontainer.get<AppointmentController>(
+          INTERFACE_TYPES.AppointmentController
+        );
+        const bookingRouter = createBookingRouter(appointmentController);
         app.use("/", bookingRouter);
       });
       afterEach(() => {
