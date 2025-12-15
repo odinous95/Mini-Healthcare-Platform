@@ -1,4 +1,4 @@
-import { AppointmentEvents } from "../../domain/events";
+import { AppointmentEvents } from "../../domain/appointment";
 
 export type TOPIC_TYPE = "appointments";
 

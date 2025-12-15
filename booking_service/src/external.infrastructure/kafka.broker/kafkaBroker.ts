@@ -1,7 +1,7 @@
 import { Admin, Consumer, Kafka, Producer } from "kafkajs";
-import { IMessageBroker } from "../../interfaces";
 import { injectable } from "inversify";
 import { IMessagePayload } from "./types";
+import { IMessageBroker } from "./IMessageBroker";
 
 @injectable()
 export class KafkaBroker implements IMessageBroker {
@@ -54,6 +54,7 @@ export class KafkaBroker implements IMessageBroker {
   }
 
   async publish(data: IMessagePayload): Promise<boolean> {
+    console.log("Publishing to topic:", data);
     try {
       const producer = await this.connectProducer<Producer>();
       console.log("Booking producer created and connected successfully.");
@@ -63,11 +64,12 @@ export class KafkaBroker implements IMessageBroker {
           {
             headers: data.headers,
             key: data.event,
-            value: JSON.stringify(data.messages),
+            value: JSON.stringify(data.message),
           },
         ],
       });
       console.log("publishing result", result);
+
       console.log("Booking created event published successfully.");
       return result.length > 0;
     } catch (error) {

@@ -1,5 +1,5 @@
 import { Admin, Producer } from "kafkajs";
-import { IMessagePayload } from "../external.infrastructure/kafka.broker/types";
+import { IMessagePayload } from "./types";
 export interface IMessageBroker {
   // --- Admin ---
   connectAdmin(): Promise<Admin>;
