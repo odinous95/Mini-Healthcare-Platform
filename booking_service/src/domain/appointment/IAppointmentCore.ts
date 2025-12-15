@@ -1,4 +1,4 @@
-import { Appointment } from "../models/appointment.model";
+import { Appointment } from "./appointment.model";
 
 export interface IAppointmentCore {
   createAppointment(data: Appointment): Promise<Appointment>;
