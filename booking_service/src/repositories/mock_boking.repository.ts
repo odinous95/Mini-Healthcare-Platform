@@ -1,5 +1,4 @@
-import { IAppointmentCore } from "../interfaces/IAppointmentCore";
-import { Appointment } from "../models/appointment.model";
+import { Appointment, IAppointmentCore } from "../domain/appointment";
 import { injectable } from "inversify";
 
 @injectable()

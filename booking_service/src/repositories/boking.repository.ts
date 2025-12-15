@@ -1,6 +1,5 @@
 import { injectable } from "inversify";
-import { IAppointmentCore } from "../interfaces";
-import { Appointment } from "../models/appointment.model";
+import { IAppointmentCore, Appointment } from "../domain/appointment";
 import { appointments } from "../external.infrastructure/postgres.database/schema";
 import { DB } from "../external.infrastructure/postgres.database/db.connection";
 

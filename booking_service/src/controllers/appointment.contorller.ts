@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { IAppointmentCore } from "../interfaces";
 import { RequestValidator } from "./validations";
 import { CreateAppointmentRequest } from "../DTOS";
 import { inject, injectable } from "inversify";
 import { INTERFACE_TYPES } from "../utils";
+import { IAppointmentCore } from "../domain/appointment";
 @injectable()
 export class AppointmentController {
   private appointmentUsecase: IAppointmentCore;

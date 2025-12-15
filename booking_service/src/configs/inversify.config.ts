@@ -1,10 +1,11 @@
 import config from "./app.config";
 import { Container } from "inversify";
 import { INTERFACE_TYPES } from "../utils";
-import { IAppointmentCore, IMessageBroker } from "../interfaces";
+import { IMessageBroker } from "../interfaces";
 import { BookingRepository, MockBookingRepository } from "../repositories";
 import { AppointmentUsecase } from "../service";
 import { AppointmentController } from "../controllers";
+import { IAppointmentCore } from "../domain/appointment";
 
 const DIcontainer = new Container();
 

@@ -1,5 +1,5 @@
 import { Factory } from "rosie";
-import { Appointment } from "../../models/appointment.model";
+import { Appointment } from "../../domain/appointment/appointment.model";
 import { randFirstName, randNumber } from "@ngneat/falso";
 
 export const AppointmentFactory = new Factory<Appointment>()
