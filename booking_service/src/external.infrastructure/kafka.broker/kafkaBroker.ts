@@ -1,7 +1,7 @@
 import { Admin, Consumer, Kafka, Producer } from "kafkajs";
 import { injectable } from "inversify";
 import { IMessagePayload } from "./types";
-import { IMessageBroker } from "../../interfaces";
+import { IMessageBroker } from "../interfaces";
 
 @injectable()
 export class KafkaBroker implements IMessageBroker {

@@ -1,4 +1,4 @@
-import { IMailSender } from "../../interfaces";
+import { IMailSender } from "../interfaces";
 
 export class MailService implements IMailSender {
   async sendEmail(to: string, subject: string, body: string): Promise<void> {

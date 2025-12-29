@@ -1,11 +1,12 @@
-import { IMessageBroker } from "../interfaces";
 import { inject, injectable } from "inversify";
-import { INTERFACE_TYPES } from "../utils";
+
+import { INTERFACE_TYPES } from "../../utils";
+import { IMessageBroker } from "../../external.infrastructure/interfaces";
 import {
   Appointment,
   AppointmentEvents,
   IAppointmentCore,
-} from "../domain/appointment";
+} from "../../domain/appointment";
 
 @injectable()
 export class AppointmentUsecase implements IAppointmentCore {

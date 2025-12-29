@@ -1,10 +1,11 @@
 import { injectable } from "inversify";
-import { IAppointmentCore, Appointment } from "../domain/appointment";
+import { Appointment } from "../domain/appointment";
 import { appointments } from "../external.infrastructure/postgres.database/schema";
 import { DB } from "../external.infrastructure/postgres.database/db.connection";
+import { IAppointmentRepository } from "../service/interfaces";
 
 @injectable()
-export class BookingRepository implements IAppointmentCore {
+export class BookingRepository implements IAppointmentRepository {
   async createAppointment(data: Appointment): Promise<Appointment> {
     try {
       const [result] = await DB.insert(appointments)

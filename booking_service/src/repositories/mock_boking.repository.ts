@@ -1,8 +1,9 @@
-import { Appointment, IAppointmentCore } from "../domain/appointment";
+import { Appointment } from "../domain/appointment";
 import { injectable } from "inversify";
+import { IAppointmentRepository } from "../service/interfaces";
 
 @injectable()
-export class MockBookingRepository implements IAppointmentCore {
+export class MockBookingRepository implements IAppointmentRepository {
   private appointments: Appointment[];
 
   constructor() {

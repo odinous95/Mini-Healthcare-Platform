@@ -3,11 +3,11 @@ import express from "express";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
 import { DIcontainer } from "../../configs/inversify.config";
 import { INTERFACE_TYPES } from "../../utils";
-import { AppointmentUsecase } from "../../service";
+import { AppointmentUsecase } from "../../service/usecases";
 import { BookingRepository } from "../../repositories";
 import config from "../../configs/app.config";
 import { createBookingRouter } from "../booking.routes";
-import { AppointmentController } from "../../controllers";
+import { AppointmentController } from "../controllers";
 
 const app = express();
 app.use(express.json());
