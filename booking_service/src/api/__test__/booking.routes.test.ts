@@ -1,14 +1,14 @@
 import request from "supertest";
 import express from "express";
 import { AppointmentFactory } from "../../utils/mockdata/appointment";
-import { AppointmentUsecase } from "../../service";
+import { AppointmentUsecase } from "../../service/usecases";
 import { MockBookingRepository } from "../../repositories";
 import config from "../../configs/app.config";
 import { Appointment } from "../../domain/appointment";
 import { createBookingRouter } from "../booking.routes";
 import { DIcontainer } from "../../configs/inversify.config";
-import { AppointmentController } from "../../controllers";
 import { INTERFACE_TYPES } from "../../utils";
+import { AppointmentController } from "../controllers";
 
 const app = express();
 app.use(express.json());

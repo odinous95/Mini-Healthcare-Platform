@@ -8,7 +8,8 @@ import {
 } from "./configs/inversify.config";
 import { INTERFACE_TYPES } from "./utils";
 import { createBookingRouter } from "./api/booking.routes";
-import { AppointmentController } from "./controllers";
+import { AppointmentController } from "./api/controllers";
+
 
 const PORT = process.env.PORT || 3000;
 
